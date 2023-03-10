@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .button {
+          display: inline-block;
+          padding: 15px 25px;
+          font-size: 24px;
+          cursor: pointer;
+          text-align: center;
+          text-decoration: none;
+          outline: none;
+          color: #fff;
+          background-color: #4CAF50;
+          border: none;
+          border-radius: 15px;
+          box-shadow: 0 9px #999;
+        }
+        
+        .button:hover {background-color: #3e8e41}
+        
+        .button:active {
+          background-color: #3e8e41;
+          box-shadow: 0 5px #666;
+          transform: translateY(4px);
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // fetch("https://scontent.cdninstagram.com/v/t51.29350-15/329508837_196411502995706_4941946629190524150_n.jpg?stp=dst-jpg_s640x640&_nc_cat=110&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=gHd3m476GegAX9dfNje&_nc_ht=scontent.cdninstagram.com&oh=00_AfCsObCnNJVev7wluNUQq2EKczOiylzfdQyKvaJKw-U8GA&oe=640FD320")
+        // .then(response => response.blob(), response => console.log("deu Beyblade"))
+        // .then(blob => {
+        //     blobURL = URL.createObjectURL(blob);
+            
+        //     let imagem = document.createElement('img');
+        //     imagem.src = blobURL;
+        //     document.body.append(imagem);
+        // })
+
+        fetch("https://video.cdninstagram.com/v/t50.33967-16/300438877_3172741046319411_8876875300380496144_n.mp4?_nc_cat=103&vs=5222002701260430_1756565571&_nc_vs=HBksFQAYJEdGMVY2QkV6dVFkWGwwVUxBQkJSbnRJTi16QjdicV9FQUFBRhUAAsgBABUAGCRHSmNjOHhIQVMtMFQ0dElEQUFoSEl0alBQNWQ4YnFfRUFBQUYVAgLIAQAoABgAGwGIB3VzZV9vaWwBMRUAACbsl9Cyg%2B7bPxUCKAJDMywXQB7MzMzMzM0YEmRhc2hfYmFzZWxpbmVfMV92MREAdQAA&ccb=1-7&_nc_sid=59939d&efg=eyJ2ZW5jb2RlX3RhZyI6InZ0c192b2RfdXJsZ2VuLjcyMC5jbGlwcyJ9&_nc_ohc=t0AHHpze4t4AX_seBWj&_nc_ht=video.cdninstagram.com&oh=00_AfD39mWRKFWP756LUtPKB5VWoVazkbGJ9zhSqRj4r1KTEw&oe=640AFE23&_nc_rid=6f2111f99b")
+        .then(response => response.blob(), response => console.log("deu Beyblade"))
+        .then(blob => {
+            blobURL = URL.createObjectURL(blob);
+
+            let div1 = document.createElement('div');
+            div1.style.textAlign = 'center';
+            
+            let videoBlob = document.createElement('video');
+            videoBlob.controls = 'controls';
+            videoBlob.autoplay = true;
+            videoBlob.muted = true;
+            videoBlob.height = 400;
+            let source = document.createElement('source');
+            source.src = blobURL;
+            source.type = 'video/mp4';
+            videoBlob.append(source);
+
+            div1.append(videoBlob);
+            document.body.append(div1);
+
+            let div2 = document.createElement('div');
+            div2.style.textAlign = 'center';
+
+            let button = document.createElement('button');
+            button.classList.add('button');
+
+            let down = document.createElement('a');
+            down.download = 'YourRequest';
+            down.href = blobURL;
+            down.append('Download');
+
+            button.append(down);
+
+            div2.append(button);
+            document.body.append(div2);
+        })
+    </script>
+</body>
+</html>
