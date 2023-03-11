@@ -32,54 +32,79 @@
     </style>
 </head>
 <body>
+    <input id="searchbar" type="text"
+    name="searchbar" placeholder="Instagram URL...">
+    <button onclick="search()">search</button>
     <script>
-        // fetch("https://scontent.cdninstagram.com/v/t51.29350-15/329508837_196411502995706_4941946629190524150_n.jpg?stp=dst-jpg_s640x640&_nc_cat=110&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=gHd3m476GegAX9dfNje&_nc_ht=scontent.cdninstagram.com&oh=00_AfCsObCnNJVev7wluNUQq2EKczOiylzfdQyKvaJKw-U8GA&oe=640FD320")
-        // .then(response => response.blob(), response => console.log("deu Beyblade"))
-        // .then(blob => {
-        //     blobURL = URL.createObjectURL(blob);
-            
-        //     let imagem = document.createElement('img');
-        //     imagem.src = blobURL;
-        //     document.body.append(imagem);
-        // })
+        function search() {
+            const input = {url: document.getElementById('searchbar').value}
 
-        fetch("https://video.cdninstagram.com/v/t50.33967-16/300438877_3172741046319411_8876875300380496144_n.mp4?_nc_cat=103&vs=5222002701260430_1756565571&_nc_vs=HBksFQAYJEdGMVY2QkV6dVFkWGwwVUxBQkJSbnRJTi16QjdicV9FQUFBRhUAAsgBABUAGCRHSmNjOHhIQVMtMFQ0dElEQUFoSEl0alBQNWQ4YnFfRUFBQUYVAgLIAQAoABgAGwGIB3VzZV9vaWwBMRUAACbsl9Cyg%2B7bPxUCKAJDMywXQB7MzMzMzM0YEmRhc2hfYmFzZWxpbmVfMV92MREAdQAA&ccb=1-7&_nc_sid=59939d&efg=eyJ2ZW5jb2RlX3RhZyI6InZ0c192b2RfdXJsZ2VuLjcyMC5jbGlwcyJ9&_nc_ohc=t0AHHpze4t4AX_seBWj&_nc_ht=video.cdninstagram.com&oh=00_AfD39mWRKFWP756LUtPKB5VWoVazkbGJ9zhSqRj4r1KTEw&oe=640AFE23&_nc_rid=6f2111f99b")
-        .then(response => response.blob(), response => console.log("deu Beyblade"))
-        .then(blob => {
-            blobURL = URL.createObjectURL(blob);
+            fetch("http://localhost:8080/instaMidia/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(input),
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                data.urls.forEach(urlAndType => {
+                    let url = urlAndType[0];
+                    let type = urlAndType[1];
+                    fetch(url)
+                    .then(response => response.blob(), response => console.log("deu Beyblade"))
+                    .then(blob => {
+                        blobURL = URL.createObjectURL(blob);
 
-            let div1 = document.createElement('div');
-            div1.style.textAlign = 'center';
-            
-            let videoBlob = document.createElement('video');
-            videoBlob.controls = 'controls';
-            videoBlob.autoplay = true;
-            videoBlob.muted = true;
-            videoBlob.height = 400;
-            let source = document.createElement('source');
-            source.src = blobURL;
-            source.type = 'video/mp4';
-            videoBlob.append(source);
+                        let div1 = document.createElement('div');
+                        div1.style.textAlign = 'center';
+                        
+                        if(type == 'video') {
+                            let videoBlob = document.createElement('video');
+                            videoBlob.controls = 'controls';
+                            videoBlob.autoplay = true;
+                            videoBlob.muted = true;
+                            videoBlob.height = 400;
+                            let source = document.createElement('source');
+                            source.src = blobURL;
+                            source.type = 'video/mp4';
+                            videoBlob.append(source);
 
-            div1.append(videoBlob);
-            document.body.append(div1);
+                            div1.append(videoBlob);
+                        }
+                        else {
+                            let imagem = document.createElement('img');
+                            imagem.src = blobURL;
+                            imagem.height = 400;
 
-            let div2 = document.createElement('div');
-            div2.style.textAlign = 'center';
+                            div1.append(imagem);
+                        }
 
-            let button = document.createElement('button');
-            button.classList.add('button');
+                        document.body.append(div1);
 
-            let down = document.createElement('a');
-            down.download = 'YourRequest';
-            down.href = blobURL;
-            down.append('Download');
+                        let div2 = document.createElement('div');
+                        div2.style.textAlign = 'center';
 
-            button.append(down);
+                        let button = document.createElement('button');
+                        button.classList.add('button');
 
-            div2.append(button);
-            document.body.append(div2);
-        })
+                        let down = document.createElement('a');
+                        down.download = 'YourRequest';
+                        down.href = blobURL;
+                        down.append('Download');
+
+                        button.append(down);
+
+                        div2.append(button);
+                        document.body.append(div2);
+                    })
+                });
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+        }
+
     </script>
 </body>
 </html>
